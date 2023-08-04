@@ -10,7 +10,7 @@ export const getWeather = (lat, lon) => {
             const { data } = response;
             const location = `${data.name}, ${data.sys.country}`;
             const temperature = Math.round(data.main.temp); // Rounded to the nearest degree
-            const description = data.weather[0].description
+            const description = data.weather[0].main
                 .split(' ')
                 .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' '); // Capitalized

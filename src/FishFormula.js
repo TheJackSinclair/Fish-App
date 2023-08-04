@@ -60,7 +60,7 @@ export function fishing_forecast() {
             getWeather(),
             getWaterTemperature()
         ]).then(([weatherData, water_temperature]) => {
-        const weather = weatherData.weather;
+        const weather = weatherData.weathertype;
         const rain_intensity = weatherData.rain_intensity; // Based on your logic to determine intensity
         const barometric_pressure = weatherData.barometric_pressure; // Interpretation required
 
@@ -70,8 +70,10 @@ export function fishing_forecast() {
 
         var score = 0;
 
+        console.log(weather, barometric_pressure, rain_intensity, time_of_day, season, moon_phase)
+
         // Weather conditions
-        if (weather === 'overcast') {
+        if (weather === 'clouds') {
             score += 20;
         } else if (weather === 'rain' && rain_intensity === 'light') {
             score += 15;
