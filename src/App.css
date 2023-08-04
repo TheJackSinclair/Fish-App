@@ -31,14 +31,20 @@ body {
   margin: 0;
 }
 
-.locationContainer, .weatherContainer {
+.locationContainer, .tempContainer {
   display: flex;
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid #666;
 }
 
-.locationContainer p, .weatherContainer p {
+.weatherContainer {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.locationContainer p, .weatherContainer p, .tempContainer p {
   margin-left: 10px;
 }
 
@@ -58,10 +64,6 @@ body {
   margin: 0;
 }
 
-/* Custom styling for Font Awesome Icons */
-.fa-map-marker, .fa-baw, .fa-sun-o {
-  font-size: 18px;
-}
 
 .fish-chance-box {
   width: 200px;
@@ -88,4 +90,31 @@ body {
 .footer {
   font-size: 12px;
   color: #666;
+}
+
+.loading-bar-container {
+  width: 80%; /* Less wide */
+  height: 10px; /* Slightly taller */
+  background-color: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto; /* Center the bar if needed */
+}
+
+.loading-bar {
+  background-color: #4caf50;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: -100%;
+  animation: loading 4s linear infinite; /* Slower animation */
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
