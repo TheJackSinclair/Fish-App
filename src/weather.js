@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getWeather = (lat, lon) => {
     const API_KEY = '211f1a1ffd69b587bde82333d98cb151';
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
     return axios.get(url)
         .then((response) => {
