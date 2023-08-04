@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {getWeather, getTemperatureIcon} from "./weather";
+
+import {getWeather} from "./weather";
+import {fishing_forecast} from "./FishFormula";
 
 function App() {
     const [location, setLocation] = useState(null);
     const [temperature, setTemperature] = useState(null);
     const [description, setDescription] = useState(null);
+    const [forecast, setForecast] = useState(null);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
+
+
 
             getWeather(lat, lon)
                 .then((weather) => {
@@ -21,6 +25,11 @@ function App() {
                         setDescription(weather.description);
                     }
                 });
+
+            fishing_forecast()
+                .then(percentage => setForecast(percentage))
+                .catch(error => console.error('Error fetching forecast:', error));
+
 
         });
     }, []);
@@ -33,7 +42,7 @@ function App() {
             </header>
 
             <div className="locationContainer">
-                <FontAwesomeIcon name="map-marker" size={'sm'} color="#000"/>
+
                 {location ? (
                     <p className="locationText">Location: {location}</p>
                 ) : (
@@ -42,13 +51,26 @@ function App() {
             </div>
 
             <div className="weatherContainer">
-                <FontAwesomeIcon name={getTemperatureIcon(temperature)} size={'sm'} color="#f0c30f"/>
+
                 <p className="tempText">Temperature: {temperature}</p>
             </div>
 
             <div className="weatherContainer">
-                <FontAwesomeIcon name="sun-o" size={'sm'} color="#f0c30f"/>
+
                 <p className="weatherText">Weather: {description}</p>
+            </div>
+
+            <div className="weatherContainer">
+
+                <p className="weatherText">Current chance of bite: {forecast}%</p>
+            </div>
+
+            <div className="fish-chance-box">
+                <div className="header">Fishing Forecast</div>
+                <div className="percentage-display">
+                    {forecast}%
+                </div>
+                <div className="footer">Chance of Catching Fish</div>
             </div>
 
             <footer className="footer">
