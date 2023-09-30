@@ -1,4 +1,3 @@
-// weather.js
 import axios from 'axios';
 
 export const getWeather = (lat, lon) => {
@@ -21,16 +20,4 @@ export const getWeather = (lat, lon) => {
             console.error(error);
             return null;
         });
-};
-
-export const getTemperatureIcon = (temperature) => {
-    if (temperature <= 0) {
-        return "fas fa-temperature-low"; // Icon for freezing temperature
-    } else if (temperature > 0 && temperature < 20) {
-        return "fas fa-thermometer-half"; // Icon for cold temperature
-    } else if (temperature >= 20 && temperature < 30) {
-        return "fas fa-thermometer-three-quarters"; // Icon for warm temperature
-    } else {
-        return "fas fa-temperature-high"; // Icon for hot temperature
-    }
 };

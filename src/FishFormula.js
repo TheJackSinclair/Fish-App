@@ -4,7 +4,7 @@ import axios from "axios";
 const API_KEY = '211f1a1ffd69b587bde82333d98cb151';
 
 // Define optimal temperatures and seasons for the species you're targeting
-const optimal_seasons = ['spring', 'summer']; // Example
+const optimal_seasons = ['spring', 'summer'];
 const IDEAL_PRESSURE = 1015;
 
 function getWeather() {
@@ -41,25 +41,25 @@ function getSeason() {
     return 'fall';
 }
 
-function getWaterTemperature() {
-    // Replace with an actual API request or other method
-    return Promise.resolve(20); // Example
-}
-
 function getMoonPhase() {
-    // Simplified logic; you might want to replace this with an accurate method
-    const dayOfMoonCycle = (new Date().getTime() / (29.53 * 24 * 60 * 60 * 1000)) % 1;
-    if (dayOfMoonCycle < 0.03 || dayOfMoonCycle > 0.97) return 'new';
-    if (dayOfMoonCycle < 0.5) return 'full';
-    return 'other';
+    const dayOfMoonCycle = (new Date().getTime() / (29.53 * 24 * 60 * 60 * 1000)) % 1 * 29.53;
+
+    if (dayOfMoonCycle < 1.5) return 'new';
+    if (dayOfMoonCycle < 7.4) return 'waxing crescent';
+    if (dayOfMoonCycle < 9.4) return 'first quarter';
+    if (dayOfMoonCycle < 13.5) return 'waxing gibbous';
+    if (dayOfMoonCycle < 15.5) return 'full';
+    if (dayOfMoonCycle < 21.4) return 'waning gibbous';
+    if (dayOfMoonCycle < 23.4) return 'last quarter';
+    if (dayOfMoonCycle < 29.5) return 'waning crescent';
+    return 'approaching new moon';
 }
 
 export function fishing_forecast() {
     return new Promise((resolve, reject) => {
         Promise.all([
             getWeather(),
-            getWaterTemperature()
-        ]).then(([weatherData, water_temperature]) => {
+        ]).then(([weatherData]) => {
         const weather = weatherData.weathertype;
         const rain_intensity = weatherData.rain_intensity; // Based on your logic to determine intensity
         const barometric_pressure = weatherData.barometric_pressure; // Interpretation required
@@ -76,7 +76,7 @@ export function fishing_forecast() {
         if (weather === 'clouds') {
             score += 20;
         } else if (weather === 'rain' && rain_intensity === 'light') {
-            score += 15;
+            score += 25;
         } else if (weather === 'sunny') {
             score -= 10;
         }
@@ -94,19 +94,29 @@ export function fishing_forecast() {
             score += 15;
         }
 
-        // Water temperature
-        if (water_temperature >= 5 && water_temperature <= 13) {
-            score += 30;
-        } else {
-            score += 15;
-        }
 
         // Moon phase
-        if (moon_phase === 'full') {
-            score += 30; // More optimal for mackerel
-        } else if (moon_phase === 'new') {
-            score += 20; // Still good, but less so than the full moon
-        }
+            switch(moon_phase) {
+                case 'full':
+                case 'new':
+                    score += 30; // Best times for mackerel fishing
+                    break;
+                case 'waxing crescent':
+                case 'waning crescent':
+                case 'approaching new moon':
+                    score += 20; // Favorable, but not as optimal as 'new' or 'full'
+                    break;
+                case 'first quarter':
+                case 'last quarter':
+                    score += 15; // Intermediate effectiveness
+                    break;
+                case 'waxing gibbous':
+                case 'waning gibbous':
+                    score += 10; // Might not be as productive as the days closer to the full moon
+                    break;
+                default:
+                    break; // No additional score for unlisted phases
+            }
 
 
         if (barometric_pressure < 1000) {
@@ -123,7 +133,7 @@ export function fishing_forecast() {
             score += 20;
         }
 
-            const maxScore = 160;
+            const maxScore = 110;
             const percentage = (score / maxScore) * 100;
 
             resolve(percentage);

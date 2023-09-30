@@ -93,7 +93,7 @@ function App() {
                                 stiffness: 100
                             }}
                 >
-                    {forecast}%
+                    {Math.round(forecast)}%
                 </motion.div>
             </motion.div>
             ) : (
