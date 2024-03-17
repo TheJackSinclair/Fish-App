@@ -46,8 +46,8 @@ function App() {
       </header>
 
       <div className="dropDownContainer">
-        <p className="locationText">Select Fish Type:</p>
-        <select onChange={handleSelectChange}>
+        <p className="dropDownText">Select Fish Type:</p>
+        <select onChange={handleSelectChange} className={"dropDown"}>
           <option hidden disabled selected value></option>
           <option value={"mackerel"}>Mackerel</option>
           <option value={"cod"}>Cod</option>
