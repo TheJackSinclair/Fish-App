@@ -17,7 +17,8 @@ function getWeather() {
               weathertype: response.data.weather[0].main.toLowerCase(),
               rain_intensity: response.data.rain ? "light" : "none",
               barometric_pressure: response.data.main.pressure,
-              temprature: response.data.main.temp,
+              temperature: response.data.main.temp,
+              wind_speed: response.data.wind.speed,
             });
           })
           .catch((error) => reject(error)); // Make sure to handle errors
@@ -91,13 +92,14 @@ export function fishing_forecast(fishType) {
         const weather = weatherData.weathertype;
         const rain_intensity = weatherData.rain_intensity; // Based on your logic to determine intensity
         const barometric_pressure = weatherData.barometric_pressure; // Interpretation required
-        const temperature = weatherData.temprature;
+        const temperature = weatherData.temperature;
+        const wind_speed = weatherData.wind_speed;
 
         const time_of_day = getTimeOfDay();
         const month = getMonth();
         const moon_phase = getMoonPhase();
 
-        var score = 0;
+        let score = 0;
 
         console.log(
           weather,
@@ -107,6 +109,7 @@ export function fishing_forecast(fishType) {
           month,
           moon_phase,
           temperature,
+          wind_speed,
         );
 
         // Weather conditions
@@ -160,6 +163,17 @@ export function fishing_forecast(fishType) {
             score += 0;
         }
 
+        //Wind Speed
+        if (wind_speed < 2) {
+          score -= 10; // Very light wind might lead to lower fish activity.
+        } else if (wind_speed >= 2 && wind_speed <= 5) {
+          score += 15; // Ideal conditions for stimulating fish activity.
+        } else if (wind_speed > 5 && wind_speed <= 8) {
+          score += 5; // Strong winds might still promote some fish activity, especially in deeper waters.
+        } else if (wind_speed > 8) {
+          score -= 5; // Very strong winds might reduce surface activity and push fish to deeper areas.
+        }
+
         // Time of day
         switch (fishType) {
           case "cod":
@@ -209,7 +223,7 @@ export function fishing_forecast(fishType) {
             break;
 
           case "trout":
-            // Trout fishing can be good in the early morning and late afternoon, especially for fly fishing.
+            // Trout fishing can be good in the early morning and late afternoon, especially for fly-fishing.
             if (
               time_of_day === "early_morning" ||
               time_of_day === "late_afternoon"
@@ -227,16 +241,18 @@ export function fishing_forecast(fishType) {
         }
 
         // Month
-        if (fishType === "cod" && ((month) => 10 || month <= 3)) {
+        if (fishType === "cod" && (month >= 10 || month <= 3)) {
           score += 15;
-        } else if (fishType === "haddock" && ((month) => 11 || month <= 3)) {
+        } else if (fishType === "haddock" && (month >= 11 || month <= 3)) {
           score += 15;
-        } else if (fishType === "mackeral" && ((month) => 5 && month <= 9)) {
+        } else if (fishType === "mackerel" && month >= 5 && month <= 9) {
           score += 15;
-        } else if (fishType === "bass" && ((month) => 5 && month <= 10)) {
+        } else if (fishType === "bass" && month >= 5 && month <= 10) {
           score += 15;
-        } else if (fishType === "trout" && ((month) => 3 && month <= 10)) {
+        } else if (fishType === "trout" && month >= 3 && month <= 10) {
           score += 15;
+        } else {
+          score -= 25;
         }
 
         // Moon phase
@@ -287,7 +303,7 @@ export function fishing_forecast(fishType) {
           score += 15;
         }
 
-        const maxScore = 110;
+        const maxScore = 150;
         const percentage = (score / maxScore) * 100;
 
         resolve(percentage);

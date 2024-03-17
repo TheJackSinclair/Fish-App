@@ -49,7 +49,7 @@ function App() {
         <p className="locationText">Select Fish Type:</p>
         <select onChange={handleSelectChange}>
           <option hidden disabled selected value></option>
-          <option value={"mackeral"}>Mackeral</option>
+          <option value={"mackerel"}>Mackerel</option>
           <option value={"cod"}>Cod</option>
           <option value={"haddock"}>Haddock</option>
           <option value={"bass"}>Bass</option>
