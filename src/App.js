@@ -121,6 +121,11 @@ function App() {
       )}
 
       <footer className="footer">
+        <p className="footerSubText">
+          * This percentage is a rough indicator. Conditions such as local
+          population, noise, vibration and your own skill are not taken into
+          account *
+        </p>
         <p className="footerText">Developed by Jack Sinclair</p>
       </footer>
     </div>
