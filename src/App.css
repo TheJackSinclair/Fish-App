@@ -3,17 +3,19 @@ body {
   padding: 0;
   background-color: #1a1a1a; /* Dark grey background */
   color: #f5f5f5; /* Light grey text color */
+  height: 100%;
+  margin-top: 10%;
 }
 
 .container {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #333;
   color: #f5f5f5;
   max-width: 800px;
-  margin: 0 auto;
+  margin: auto;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   display: grid;
   place-items: center;
 }
@@ -31,7 +33,9 @@ body {
   margin: 0;
 }
 
-.locationContainer, .tempContainer {
+.locationContainer,
+.tempContainer,
+.dropDownContainer {
   display: flex;
   align-items: center;
   padding: 15px;
@@ -44,11 +48,16 @@ body {
   padding: 15px;
 }
 
-.locationContainer p, .weatherContainer p, .tempContainer p {
+.locationContainer p,
+.weatherContainer p,
+.tempContainer p {
   margin-left: 10px;
 }
 
-.locationText, .tempText, .weatherText {
+.locationText,
+.tempText,
+.weatherText,
+.dropDownText {
   color: #aaa;
   font-size: 16px;
 }
@@ -63,7 +72,6 @@ body {
 .footerText {
   margin: 0;
 }
-
 
 .fish-chance-box {
   width: 200px;
