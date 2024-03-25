@@ -3,18 +3,12 @@ import "./App.css";
 import { getWeather } from "./weather";
 import { fishing_forecast } from "./FishFormula";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFishFins,
-  faMapLocation,
-  faTemperature3,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFishFins, faMapLocation } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [location, setLocation] = useState(null);
-  const [temperature, setTemperature] = useState(null);
-  const [description, setDescription] = useState(null);
   const [forecast, setForecast] = useState(null);
 
   useEffect(() => {
@@ -25,8 +19,6 @@ function App() {
       getWeather(lat, lon).then((weather) => {
         if (weather) {
           setLocation(weather.location);
-          setTemperature(weather.temperature);
-          setDescription(weather.description);
         }
       });
     });
@@ -66,16 +58,6 @@ function App() {
         ) : (
           <p className="locationText">No location available</p>
         )}
-      </div>
-
-      <div className="tempContainer">
-        <p className="tempText">
-          <FontAwesomeIcon icon={faTemperature3} /> Temperature: {temperature}
-        </p>
-      </div>
-
-      <div className="weatherContainer">
-        <p className="weatherText">Weather: {description}</p>
       </div>
 
       {forecast !== null ? (
