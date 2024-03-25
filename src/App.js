@@ -9,6 +9,7 @@ import {
   faTemperature3,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [location, setLocation] = useState(null);
@@ -128,6 +129,7 @@ function App() {
         </p>
         <p className="footerText">Developed by Jack Sinclair</p>
       </footer>
+      <Analytics />
     </div>
   );
 }
